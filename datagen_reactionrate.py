@@ -27,8 +27,8 @@ def gen(n, mean):
 def function(n, beta):
 	mylist = gen_class(n)
 	rxn_rate = 0
-	offset = 0.2
-	target = 1 + 1.25*beta + offset
+	offset = 0.3
+	target = 1 + beta*(offset)
 	for x in mylist:
 		if x[3]=='1':
 			rxn_rate = rxn_rate + 1
@@ -52,5 +52,3 @@ def function(n, beta):
 	return newvalues
 
 print function(100, .5)
-
-
