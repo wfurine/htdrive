@@ -1,23 +1,26 @@
 import random
 import numpy
 
-def gen(n, mean):
-    values = [random.random() for i in range(n)]
-    truevalues = []
-    for x in values:
-        x = x*mean/numpy.mean(values)
-        truevalues.append(x)
-    return truevalues
+def gen(n, mean, sd):
+    values = [random.gauss(mean, sd) for i in range(n)]
+    return values
 
-def function(n, mylist, beta):
+def genclass(n):
+    classes = ['1000', '1100', '1110', '1101', '1010', '1001', '1011', '1111', '0100', '0110', '0101', '0111', '0010', '0011', '0001', '0000']
+    people = []
+    for i in range(n):
+        people.append(random.choice(classes))
+    return people
+
+
+def function(n, beta):
+    mylist = genclass(n)
     motor = 0 ## number of people in motor control class
     for x in mylist:
         if x[0]=='1':
             motor = motor + 1
-    valuesb = gen(motor, 1+beta) ## generating motor numbers with mean 1 + beta
-    if((n-(1+beta)*motor)<0): ## limit for beta (or else values will be negative)
-        return "Not possible for this value of beta"
-    valuesn = gen(n-motor, (n - (1+beta)*motor)/(n - motor)) ## generating rest of values so that total mean is 1
+    valuesb = gen(motor, beta, 0.2) ## generating motor numbers with mean beta
+    valuesn = gen(n-motor, 0, 0.2) ## generating normal people with mean 0
     newvalues = []
     b = 0
     n = 0
@@ -31,4 +34,4 @@ def function(n, mylist, beta):
     return newvalues
     
     
-print function(5, ['1000', '0111','1000','1011','0011'], .5)
+print function(100, 1)
