@@ -6,21 +6,14 @@ import math
 def gen_class(n):
 	classes = ['1000', '1100', '1110', '1101', '1010', '1001', '1011', '1111', '0100', '0110', '0101', '0111', '0010', '0011', '0001', '0000'] 
 	classified = []
-	x = 0
-	while x < n:
-		selected_class = random.choice(classes)
-		classified.append(selected_class)
-		x = x + 1
+	for i in range(n):
+		classified.append(random.choice(classes))
 	return classified
 
 # Generate random values to satisfy overall mean conditions
-def gen(n, mean):
-    values = [random.random() for i in range(n)]
-    truevalues = []
-    for x in values:
-        y = round((x*mean/numpy.mean(values)), 6)
-        truevalues.append(y)
-    return truevalues
+def gen(n, mean, sd):
+	values = [round(random.gauss(mean, sd), 6) for i in range(n)]
+	return values
 
 # Those who fit into the reaction rate class have mean value 1 + beta + offset
 # Mean overall is 1
@@ -32,10 +25,10 @@ def function(n, beta):
 	for x in mylist:
 		if x[3]=='1':
 			rxn_rate = rxn_rate + 1
-	valuesb = gen(rxn_rate, target)
+	valuesb = gen(rxn_rate, target, 0.2)
 	if ((n-target*rxn_rate)<0):
 		return "Not possible for this value of beta"
-	valuesn = gen(n-rxn_rate, (n - target*rxn_rate)/(n - rxn_rate))
+	valuesn = gen(n-rxn_rate, (n - target*rxn_rate)/(n - rxn_rate), 0.2)
 	newvalues = []
 	b = 0
 	n = 0
