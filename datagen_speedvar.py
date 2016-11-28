@@ -1,5 +1,5 @@
 import random
-import numpy
+import numpy as np
 
 def gen(n, mean, sd):
     values = [random.gauss(mean, sd) for i in range(n)]
