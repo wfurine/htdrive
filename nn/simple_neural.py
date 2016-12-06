@@ -3,6 +3,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
+## ******************************
+## DATA PREPROCESSING AHEAD HERE
+## ******************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## ******************************
+## MACHINE LEARNING SECTION AHEAD
+## ******************************
+
 # SIMPLE NEURAL NETWORK
 # This neural network will just be composed of two hidden, fully connected
 # layers. Basically the implementation of a multilayer perceptron machine. 
@@ -38,16 +68,14 @@ layer_2_outputs = tf.nn.sigmoid(tf.matmul(layer_1_outputs, weights_2) + biases_2
 
 
 
-### CHANGE UP THIS!!!!!
+weights_3 = tf.Variable(tf.truncated_normal([dim_layer2, dim_output]))
+biases_3 = tf.Variable(tf.zeros([dim_output]))
+output = tf.nn.sigmoid(tf.matmul(layer_2_outputs, weights_3) + biases_3)
 
-# [!] create the new layer
-weights_3 = tf.Variable(tf.truncated_normal([2, 1]))
-biases_3 = tf.Variable(tf.zeros([1]))
-
-logits = tf.nn.sigmoid(tf.matmul(layer_2_outputs, weights_3) + biases_3)
-
-# [!] The error function chosen is good for a multiclass classification taks, not for a XOR.
-error_function = 0.5 * tf.reduce_sum(tf.sub(logits, desired_outputs) * tf.sub(logits, desired_outputs))
+# [!] The error function chosen is good for multiclass classifications
+# takes the difference of all of the classes in the output
+error_function = 0.5 * tf.reduce_sum(tf.sub(output, outputs_actual) \
+  * tf.sub(output, outputs_actual))
 
 train_step = tf.train.GradientDescentOptimizer(0.05).minimize(error_function)
 
@@ -60,13 +88,17 @@ training_outputs = [[0.0], [1.0], [1.0], [0.0]]
 for i in range(20000):
     _, loss = sess.run([train_step, error_function],
                        feed_dict={inputs: np.array(training_inputs),
-                                  desired_outputs: np.array(training_outputs)})
+                                  outputs_actual: np.array(training_outputs)})
     print(loss)
 
-print(sess.run(logits, feed_dict={inputs: np.array([[0.0, 0.0]])}))
-print(sess.run(logits, feed_dict={inputs: np.array([[0.0, 1.0]])}))
-print(sess.run(logits, feed_dict={inputs: np.array([[1.0, 0.0]])}))
-print(sess.run(logits, feed_dict={inputs: np.array([[1.0, 1.0]])}))
+
+
+
+# This is for the case of XOR network modeling with simple feedforward perceptron. 
+# print(sess.run(logits, feed_dict={inputs: np.array([[0.0, 0.0]])}))
+# print(sess.run(logits, feed_dict={inputs: np.array([[0.0, 1.0]])}))
+# print(sess.run(logits, feed_dict={inputs: np.array([[1.0, 0.0]])}))
+# print(sess.run(logits, feed_dict={inputs: np.array([[1.0, 1.0]])}))
 
 
 
