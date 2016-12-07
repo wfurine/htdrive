@@ -1,7 +1,8 @@
 import random
-import numpy
+import numpy 
 from operator import add
 import csv
+
 betas = [[[0, 0, 0, 0],
           [1, 0, 0, 0],
           [1, 0, 0, 0],
@@ -38,6 +39,7 @@ betas = [[[0, 0, 0, 0],
          [0, 0, 0, 0],
          [0, 0, 0, 0],
          [0, 0, 0, 0]]]
+
 sd = 0.1
 def checker(i,n):
     if i[n] == '1':
@@ -58,8 +60,12 @@ def function(n, betas):
     final  = []
     mylist = genclass(n)
     a = 0
+
+    # create numpy array to store actual classes
+    # array with shape ([class], 4)
+    classes_actual = numpy.zeros(shape=(n, 4))
     for i in mylist:
-        a = a+1
+        
         ovr = []
         for j in range(9):
             values = [random.gauss(0, sd), random.gauss(0, sd),
@@ -72,15 +78,35 @@ def function(n, betas):
                 for z in range(3):
                     values[z] = values[z] + newvalues[z]
             ovr = ovr + values
-        if(a==1):
+        if a == 0:
             final = ovr
         else:
             final = numpy.column_stack((final, ovr))
-        print i, numpy.mean(ovr)
 
-    with open("output.csv", "wb") as f:
+        # add class information to numpy array
+        for ii in range(4):
+        	classes_actual[a][ii] = checker(i, ii)
+
+        a = a+1
+        # print i, numpy.mean(ovr)
+
+        
+    # transpose shape for classes for convenience 
+    final = numpy.transpose(final)
+    print final
+    print final.shape
+    print classes_actual
+    print classes_actual.shape
+
+    with open("output_tests.csv", "wb") as f:
         writer = csv.writer(f)
         writer.writerows(final)
-        
+
+
+    with open("output_classes.csv", "wb") as f:
+        writer = csv.writer(f)
+        writer.writerows(classes_actual)
+
+	    
     
-print function(10, betas)
+function(10000, betas)
