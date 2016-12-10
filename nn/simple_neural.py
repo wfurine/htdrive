@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import csv
 
 
-drive_data_path = '/home/wfu/ml/htdrive/output_tests.csv'
-class_data_path = '/home/wfu/ml/htdrive/output_classes.csv'
-model_save_path = '/home/wfu/ml/htdrive/multilayer_perceptron.ckpt'
+drive_data_path = '../output_tests.csv'
+class_data_path = '../output_classes.csv'
+model_save_path = '../multilayer_perceptron.ckpt'
 
 ## ******************************
 ## DATA PREPROCESSING AHEAD HERE
@@ -150,11 +150,11 @@ for epoch in range(training_epochs):
     if epoch % test_step == 0:
         test_total = X_test.shape[0]
         result = output
-        predictions = result.eval(feed_dict={inputs: X_test,}, sess=sess)
+        predictions = result.eval(feed_dict={inputs: X_test,})
         predictions = threshold_array(predictions)
         correct = 0
         for i in xrange(test_total):
-            if np.array_equal(y_test[i], predictions[i])
+            if np.array_equal(y_test[i], predictions[i]):
                 correct = correct + 1
 
         perfect_accuracy = correct / test_total
