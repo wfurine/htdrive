@@ -2,6 +2,9 @@ import random
 import numpy 
 from operator import add
 import csv
+from sklearn.decomposition import PCA
+from numpy import genfromtxt
+
 
 betas = [[[0, 0, 0, 0],
           [1, 0, 0, 0],
@@ -107,6 +110,29 @@ def function(n, betas):
         writer = csv.writer(f)
         writer.writerows(classes_actual)
 
-	    
     
 function(10000, betas)
+# people = array of 10000 classes
+
+
+drive_data_path = 'output_tests.csv' 
+
+class_data_path = 'output_classes.csv'
+
+data_drive = genfromtxt(drive_data_path, delimiter=',')
+data_classes = genfromtxt(class_data_path, delimiter=',')
+
+pca = PCA(n_components=8000)
+
+pca.fit(data_drive)
+
+# Do something with data_classes
+
+# The pca.explained_variance_ratio_ parameter returns a vector of the variance explained by each dimension
+# Outputs an array of 36 eigenvalues in descending order
+print(pca.explained_variance_ratio_) 
+
+# Now use those to test against other 2000 people
+
+
+
