@@ -45,7 +45,7 @@ with open("test_classes.csv", "wb") as f:
 ## ******************************
 
 learning_rate = 0.05
-training_epochs = 1000
+training_epochs = 80
 batch_size = 1
 batch_total = int(num_train/batch_size)
 display_step = 10
