@@ -67,9 +67,18 @@ nn_network_def = {
 # This neural network will just be composed of two hidden, fully connected
 # layers. Basically the implementation of a multilayer perceptron machine. 
 # It can learn non-linear relationships (hopefully)
+# ******************************
+# RETURNS: x, y, cost
+# x[] = epoch of training
+# y[] = accuracy
+# cost[] = cost
 def multilayer_perceptron(X_train, X_test, y_train, y_test, 
     nn_parameters=nn_parameters, nn_network_def=nn_network_def, 
     save=False):
+
+    epoch_record = []
+    accuracy_record = []
+    cost_record = []
 
     learning_rate = nn_parameters['learning_rate']
     training_epochs = nn_parameters['training_epochs']
@@ -168,6 +177,7 @@ def multilayer_perceptron(X_train, X_test, y_train, y_test,
             print("Epoch:", '%06d' % (epoch), "cost=", \
                 "{:.9f}".format(avg_cost))
 
+
         if epoch % test_step == 0:
             test_total = X_test.shape[0]
             result = output
@@ -183,6 +193,10 @@ def multilayer_perceptron(X_train, X_test, y_train, y_test,
             print("Testing accuracy: {} / {}".format(correct, test_total) \
                     + "   {}".format(perfect_accuracy))
 
+            cost_record.append(avg_cost)
+            accuracy_record.append(perfect_accuracy)
+            epoch_record.append(epoch)
+
 
     print("Optimization Finished!")
 
@@ -193,4 +207,5 @@ def multilayer_perceptron(X_train, X_test, y_train, y_test,
         print("Model saved for future use in: %s" % save_path)
 
 
+    return epoch_record, accuracy_record, cost_record
 

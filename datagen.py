@@ -64,7 +64,7 @@ def genclass(n):
 
 
 
-def function(n, betas=betas_list):
+def function(n, betas=betas_list, beta_weight=1):
 	final  = []
 	mylist = genclass(n)
 	a = 0
@@ -79,10 +79,10 @@ def function(n, betas=betas_list):
 			values = [random.gauss(0, sd), random.gauss(0, sd),
 					  random.gauss(0, sd), random.gauss(0, sd)]
 			for c in range(4):
-				newvalues = [checker(i,c)*random.gauss(betas[j][0][c], sd),
-						   checker(i,c)*random.gauss(betas[j][1][c], sd),
-						   checker(i,c)*random.gauss(betas[j][2][c], sd),
-						   checker(i,c)*random.gauss(betas[j][3][c], sd) ]
+				newvalues = [checker(i,c)*random.gauss(betas[j][0][c], sd)*beta_weight,
+						   checker(i,c)*random.gauss(betas[j][1][c], sd)*beta_weight,
+						   checker(i,c)*random.gauss(betas[j][2][c], sd)*beta_weight,
+						   checker(i,c)*random.gauss(betas[j][3][c], sd)*beta_weight ]
 
 				for z in range(3):
 					values[z] = values[z] + newvalues[z]

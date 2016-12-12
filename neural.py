@@ -10,8 +10,8 @@ from matplotlib import pyplot as plt
 
 
 
-def generate_tests(num_tests=36, num_drivers=10000):
-	data, classes = datagen.function(num_drivers)
+def generate_tests(num_tests=36, num_drivers=10000, beta_weight=1):
+	data, classes = datagen.function(num_drivers, beta_weight=beta_weight)
 	X_train, X_test, y_train, y_test = train_test_split(data, classes, 
 														test_size=0.20, random_state=420)
 	return X_train, X_test, y_train, y_test
@@ -34,42 +34,17 @@ nn_network_def = {
 }
 
 
+beta_weights_list = [0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0]
+nn_accuracy_data = []
+for weight in beta_weights_list:
+	X_train, X_test, y_train, y_test = generate_tests(beta_weight = weight)
+	epochs, accuracy, cost = nn.multilayer_perceptron(X_train, X_test, 
+							y_train, y_test, 
+							nn_parameters=nn_parameters, 
+							nn_network_def=nn_network_def)
 
-# drive_data_path = 'output_tests.csv'
-# class_data_path = 'output_classes.csv'
-# model_save_path = 'multilayer_perceptron.ckpt'
+	# We want to plot accuracy in the y axis and epochs in the x
+	plt.plot(epochs, accuracy, label="beta_weight = {}".format(weight))
 
-## ******************************
-## DATA PREPROCESSING AHEAD HERE
-## ******************************
+plt.show()
 
-"""
-data_drive = genfromtxt(drive_data_path, delimiter=',')
-data_classes = genfromtxt(class_data_path, delimiter=',')
-
-# print data_drive
-# print data_classes
-
-
-X_train, X_test, y_train, y_test = train_test_split(data_drive, data_classes, 
-                                          test_size=0.20, random_state = 420)
-
-num_train = X_train.shape[0]
-num_test = X_test.shape[0]
-
-
-# Save the testing data into files for later use...
-with open("test_driver.csv", "wb") as f:
-    writer = csv.writer(f)
-    writer.writerows(X_test)
-
-
-with open("test_classes.csv", "wb") as f:
-    writer = csv.writer(f)
-    writer.writerows(y_test)
-
-"""
-X_train, X_test, y_train, y_test = generate_tests()
-nn.multilayer_perceptron(X_train, X_test, y_train, y_test, 
-						nn_parameters=nn_parameters, 
-						nn_network_def=nn_network_def)
