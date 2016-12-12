@@ -46,10 +46,10 @@ with open("test_classes.csv", "wb") as f:
 
 nn_parameters = {
     'learning_rate': 0.01,
-    'training_epochs': 30,
+    'training_epochs': 50,
     'batch_size': 1,
-    'display_step': 1,
-    'test_step': 1,
+    'display_step': 10,
+    'test_step': 10,
 }
 
 nn_network_def = {
@@ -173,7 +173,7 @@ def multilayer_perceptron(X_train, X_test, y_train, y_test,
             result = output
             predictions = result.eval(feed_dict={inputs: X_test,})
             predictions = threshold_array(predictions)
-            print predictions
+            # print predictions
             correct = 0
             for i in xrange(test_total):
                 if np.array_equal(y_test[i], predictions[i]):
