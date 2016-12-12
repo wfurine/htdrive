@@ -35,15 +35,15 @@ nn_network_def = {
 
 
 
-drive_data_path = 'output_tests.csv'
-class_data_path = 'output_classes.csv'
-model_save_path = 'multilayer_perceptron.ckpt'
+# drive_data_path = 'output_tests.csv'
+# class_data_path = 'output_classes.csv'
+# model_save_path = 'multilayer_perceptron.ckpt'
 
 ## ******************************
 ## DATA PREPROCESSING AHEAD HERE
 ## ******************************
 
-
+"""
 data_drive = genfromtxt(drive_data_path, delimiter=',')
 data_classes = genfromtxt(class_data_path, delimiter=',')
 
@@ -68,8 +68,8 @@ with open("test_classes.csv", "wb") as f:
     writer = csv.writer(f)
     writer.writerows(y_test)
 
-
-# X_train, X_test, y_train, y_test = generate_tests()
+"""
+X_train, X_test, y_train, y_test = generate_tests()
 nn.multilayer_perceptron(X_train, X_test, y_train, y_test, 
 						nn_parameters=nn_parameters, 
 						nn_network_def=nn_network_def)
